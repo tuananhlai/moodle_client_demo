@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Baseline from "../layouts/Baseline.vue";
+import Baseline from "../../layouts/Baseline.vue";
 
 export default {
   components: { Baseline },

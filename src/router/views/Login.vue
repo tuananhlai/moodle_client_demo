@@ -31,7 +31,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn class="mr-2 mb-2" color="primary" to="/">Login</v-btn>
+            <v-btn class="mr-2 mb-2" color="primary" to="/courses">Login</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
