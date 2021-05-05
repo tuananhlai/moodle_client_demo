@@ -1,3 +1,5 @@
+import Login from "./views/Login.vue";
+
 export default [
   {
     path: "/",
@@ -12,5 +14,10 @@ export default [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "./views/About.vue"),
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
   },
 ];
