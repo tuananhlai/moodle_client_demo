@@ -5,10 +5,28 @@
         @click.stop="sidebarMenu = !sidebarMenu"
       ></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-      <v-btn @click="toggleTheme" color="primary" class="mr-2">{{
-        buttonText
-      }}</v-btn>
-      <v-icon>mdi-account</v-icon>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn color="primary" dark v-bind="attrs" v-on="on">
+            <v-icon>mdi-account</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item
+            v-for="(a, index) in menu"
+            :key="index"
+            link
+            :to="a.href"
+            active-class="primary--text"
+          >
+            <v-list-item-icon>
+              <v-icon>{{ a.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>{{ a.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-navigation-drawer
       v-model="sidebarMenu"
@@ -86,6 +104,13 @@ export default {
         href: "/courses/english",
         icon: "mdi-school-outline",
       },
+    ],
+    menu: [
+      { title: "Profile", href: "", icon: "mdi-account" },
+      { title: "Grades", href: "", icon: "mdi-calendar-month-outline" },
+      { title: "Messages", href: "", icon: "mdi-forum" },
+      { title: "Preference", href: "", icon: "mdi-cog-outline" },
+      { title: "Log out", href: "/", icon: "mdi-logout-variant" },
     ],
   }),
 };
