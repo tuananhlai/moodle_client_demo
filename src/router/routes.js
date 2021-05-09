@@ -30,6 +30,9 @@ export default [
     path: "/courses",
     name: "Courses",
     component: Courses,
+    meta: {
+      requiresAuth: true,
+    },
     children: [
       {
         path: "home",
@@ -53,7 +56,7 @@ export default [
         component: () => import("./views/Files.vue"),
       },
       {
-        path: "math",
+        path: ":id",
         name: "Course",
         component: () => import("./views/Course.vue"),
       },

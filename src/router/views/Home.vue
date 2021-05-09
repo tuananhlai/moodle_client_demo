@@ -25,10 +25,10 @@
                 <a href="/login">log in</a> and play with it:<br
               /></p>
               <ul
-                ><li><em>admin / sandbox</em></li
-                ><li><em>manager / sandbox</em></li
-                ><li><em>teacher / sandbox</em></li
-                ><li><em>student / sandbox</em></li></ul
+                ><li><em>admin / password</em></li
+                ><li><em>manager / password</em></li
+                ><li><em>teacher / password</em></li
+                ><li><em>student / password</em></li></ul
               >
               <p
                 >This site is reset to its blank state every hour, on the

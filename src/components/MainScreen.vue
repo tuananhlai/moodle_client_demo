@@ -67,6 +67,26 @@
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-group :value="false" sub-group>
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title>My Courses</v-list-item-title>
+              </v-list-item-content>
+            </template>
+
+            <v-list-item
+              v-for="c in courses"
+              :courses="courses"
+              :key="c"
+              @click="$router.push({ name: 'Course', params: { id: c.id } })"
+              link
+            >
+              <v-list-item-icon>
+                <v-icon>mdi-school-outline</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>{{ c.name }}</v-list-item-title>
+            </v-list-item>
+          </v-list-group>
         </v-list>
       </v-card>
     </v-navigation-drawer>
@@ -75,6 +95,9 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+const BASE_URL = "http://localhost:8001";
+
 export default {
   name: "MainScreen",
   data: () => ({
@@ -97,13 +120,6 @@ export default {
         href: "/courses/users/files",
         icon: "mdi-file",
       },
-      { title: "My courses", href: "", icon: "mdi-school" },
-      { title: "Math", href: "/courses/math", icon: "mdi-school-outline" },
-      {
-        title: "English",
-        href: "/courses/english",
-        icon: "mdi-school-outline",
-      },
     ],
     menu: [
       { title: "Profile", href: "", icon: "mdi-account" },
@@ -112,6 +128,22 @@ export default {
       { title: "Preference", href: "", icon: "mdi-cog-outline" },
       { title: "Log out", href: "/", icon: "mdi-logout-variant" },
     ],
+    courses: [],
   }),
+  created() {
+    this.getCourses();
+  },
+  methods: {
+    getCourses() {
+      axios
+        .get(BASE_URL + "/api/courses")
+        .then(response => {
+          this.courses = response.data.data;
+        })
+        .catch(e => {
+          this.error.push(e);
+        });
+    },
+  },
 };
 </script>

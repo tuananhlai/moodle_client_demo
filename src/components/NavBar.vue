@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app color="primary" dark>
-    <v-toolbar-title>Honyomi</v-toolbar-title>
+    <v-toolbar-title>Moodle Plus</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn
       :key="link.name"

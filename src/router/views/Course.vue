@@ -4,7 +4,7 @@
       <v-row>
         <v-col>
           <v-card min-height="150" class="mx-auto text-center px-5" outlined>
-            <v-card-title class="pt-12 text-h3">Math Course</v-card-title>
+            <v-card-title class="pt-12 text-h3">{{ course.name }}</v-card-title>
           </v-card>
         </v-col>
       </v-row>
@@ -16,20 +16,37 @@
               News Forum
             </v-card-text>
             <v-divider width="98%" class="mx-auto"></v-divider>
-            <v-list two-line>
-              <v-list-item-group active-class="primary--text">
-                <template>
-                  <v-list-item :key="item.title" v-for="item in items">
-                    <v-list-item-content>
-                      <v-list-item-title
-                        class="text-h4"
-                        v-text="item.title"
-                      ></v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                </template>
-              </v-list-item-group>
-            </v-list>
+            <v-expansion-panels accordion>
+              <v-expansion-panel
+                v-for="topic in topics"
+                :key="topic.title"
+                class="text-h5"
+              >
+                <v-expansion-panel-header class="text-h4">{{
+                  topic.title
+                }}</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  {{ topic.content }}
+                  <v-list>
+                    <v-list-item v-for="item in items" :key="item.id">
+                      <v-item-icon>
+                        <v-icon>
+                          {{ item.icon }}
+                        </v-icon>
+                      </v-item-icon>
+                      <v-list-item-title>
+                        {{ item.name }}
+                      </v-list-item-title>
+                      <v-checkbox
+                        v-model="model"
+                        :value="item"
+                        :value-comparator="comparator"
+                      ></v-checkbox>
+                    </v-list-item>
+                  </v-list>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
           </v-card>
         </v-col>
         <v-col xl="3">
@@ -81,31 +98,69 @@
 
 <script>
 import CourseLine from "../layouts/CourseLine.vue";
+import axios from "axios";
+const BASE_URL = "http://localhost:8001";
 
 export default {
   name: "Course",
+  props: {
+    courses: [],
+  },
   components: {
     CourseLine,
   },
   data: () => ({
+    course: [],
+    topics: [],
     items: [
       {
-        title: "Topic 1",
+        id: 1,
+        name: "Slide1",
+        icon: "mdi-file-document-edit-outline",
       },
       {
-        title: "Topic 2",
+        id: 2,
+        name: "Slide2",
+        icon: "mdi-file-document-edit-outline",
       },
       {
-        title: "Topic 3",
+        id: 3,
+        name: "Slide3",
+        icon: "mdi-file-document-edit-outline",
       },
       {
-        title: "Topic 4",
-      },
-      {
-        title: "Topic 5",
+        id: 4,
+        name: "Assignment",
+        icon: "mdi-file-table",
       },
     ],
   }),
+  created() {
+    this.getCourse();
+    this.getTopics();
+  },
+  methods: {
+    getCourse() {
+      axios
+        .get(BASE_URL + "/api/courses/" + this.$route.params.id)
+        .then(response => {
+          this.course = response.data[0];
+        })
+        .catch(e => {
+          this.error.push(e);
+        });
+    },
+    getTopics() {
+      axios
+        .get(BASE_URL + "/api/courses/" + this.$route.params.id + "/contents")
+        .then(response => {
+          this.topics = response.data.data;
+        })
+        .catch(e => {
+          this.error.push(e);
+        });
+    },
+  },
 };
 </script>
 <style scoped></style>

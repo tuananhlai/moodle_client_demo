@@ -4,10 +4,10 @@
       <v-flex xs12 sm8 md4>
         <v-card class="elevation-12">
           <v-toolbar dark color="primary">
-            <v-toolbar-title>Login form</v-toolbar-title>
+            <v-toolbar-title>Sign In</v-toolbar-title>
           </v-toolbar>
-          <v-card-text>
-            <v-form>
+          <v-card-text class="my-4">
+            <v-form @submit="login()" class="mt-4">
               <v-text-field
                 prepend-icon="mdi-account"
                 v-model="user.email"
@@ -27,11 +27,13 @@
                 :type="showPassword ? 'text' : 'password'"
                 @click:append="showPassword = !showPassword"
               ></v-text-field>
+              <v-checkbox v-model="keepsignin" :label="`Stay logged in`">
+              </v-checkbox>
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn class="mr-2 mb-2" color="primary" to="/courses/home"
+            <v-btn class="mr-2 mb-2" color="primary" @click="login()"
               >Login</v-btn
             >
           </v-card-actions>
@@ -43,6 +45,7 @@
 
 <script>
 import BaseLine from "../layouts/Baseline.vue";
+import { AUTH_LOGIN } from "../../store/actions/auth";
 
 export default {
   name: "Login",
@@ -55,10 +58,20 @@ export default {
         email: "",
         password: "",
       },
+      keepsignin: false,
       showPassword: false,
     };
   },
-  methods: {},
+  methods: {
+    login() {
+      this.$store.dispatch(AUTH_LOGIN, this.user).then(() => {
+        if (this.$route.query.redirect) {
+          this.$router.push(this.$route.query.redirect);
+        }
+        this.$router.push({ path: "/courses/home" });
+      });
+    },
+  },
 };
 </script>
 
